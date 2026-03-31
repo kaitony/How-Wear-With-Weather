@@ -29,8 +29,9 @@ export function PreferenceCard({ id, selectedBg, selectedBorder, bgColor, border
                   flex flex-1 items-center p-6 gap-x-6 rounded-3xl border-2 transition-all
                   ${isSelected ? `${selectedBg} ${selectedBorder} shadow-lg scale-[1.02]` : `${bgColor} ${borderColor}`}
                   hover:scale-[1.01] active:scale-[0.99]
+                   cursor-pointer
                 `}>
-      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center`}>{children}</div>
+      {children}
       <div className="flex flex-1 flex-col gap-y-2 text-left">
         <h3 className="text-lg text-gray-800 font-semibold">{title}</h3>
         <p className="text-sm text-gray-600">{description}</p>

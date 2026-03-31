@@ -17,20 +17,20 @@ export default function SplashClientContainer({ children }: { children: ReactNod
   const { setTemporature } = usePreferenceStore();
   const { setLocation } = useLocationStore();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (preference && location) {
-  //       setTemporature(JSON.parse(preference));
-  //       setLocation(JSON.parse(location).latitude, JSON.parse(location).longitude);
-  //       router.replace("/main");
-  //     } else if (preference && !location) {
-  //       setTemporature(JSON.parse(preference));
-  //       router.replace("/location");
-  //     } else {
-  //       router.replace("/preference");
-  //     }
-  //   }, 2000); // 2초 후에 리다이렉트
-  // }, [preference, location]);
+  useEffect(() => {
+    setTimeout(() => {
+      if (preference && location) {
+        setTemporature(JSON.parse(preference));
+        setLocation(JSON.parse(location).latitude, JSON.parse(location).longitude);
+        router.replace("/main");
+      } else if (preference && !location) {
+        setTemporature(JSON.parse(preference));
+        router.replace("/location");
+      } else {
+        router.replace("/preference");
+      }
+    }, 2000); // 2초 후에 리다이렉트
+  }, [preference, location]);
 
   return <>{children}</>;
 }

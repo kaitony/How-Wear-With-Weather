@@ -27,8 +27,8 @@ const pretendard = localFont({
 
 // 페이지 메타데이터 설정
 export const metadata: Metadata = {
-  title: "Next.js Basement",
-  description: "Next.js 기반의 최신 베이스 템플릿입니다.",
+  title: "How Wear With Weather",
+  description: "날씨에 어울리는 옷차림을 추천해주는 서비스입니다.",
 };
 
 // 루트 레이아웃 컴포넌트

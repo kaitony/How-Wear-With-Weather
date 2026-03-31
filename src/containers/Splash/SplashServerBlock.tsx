@@ -22,5 +22,5 @@ export default function SplashServerBlock() {
 }
 
 function Logo() {
-  return <Image src={logo} alt="Logo" width={120} height={120} />;
+  return <Image src={logo} alt="Logo" width={120} height={120} loading="eager" />;
 }

@@ -14,17 +14,16 @@ export default function PreferenceServerBlock() {
 
         <div className="flex-1 flex flex-col gap-y-4">
           <PreferenceCard id="hot" selectedBg="bg-red-100" selectedBorder="border-red-400" bgColor="bg-red-50" borderColor="border-red-200" title="더위를 많이 타요" description="더운 날씨에 특히 민감해요">
-            <Flame className={`w-8 h-8 text-red-500`} strokeWidth={1.5} />
+            <Flame className="w-8 h-8 text-red-500" strokeWidth={1.5} />
           </PreferenceCard>
           <PreferenceCard id="cold" selectedBg="bg-blue-100" selectedBorder="border-blue-400" bgColor="bg-blue-50" borderColor="border-blue-200" title="추위를 많이 타요" description="추운 날씨에 특히 민감해요">
-            <Snowflake className={`w-8 h-8 text-blue-500`} strokeWidth={1.5} />
+            <Snowflake className="w-8 h-8 text-blue-500" strokeWidth={1.5} />
           </PreferenceCard>
           <PreferenceCard id="normal" selectedBg="bg-gray-100" selectedBorder="border-gray-400" bgColor="bg-gray-50" borderColor="border-gray-200" title="보통이에요" description="날씨에 대한 특별한 민감함이 없어요">
-            <Minus className={`w-8 h-8 text-gray-500`} strokeWidth={1.5} />
+            <Minus className="w-8 h-8 text-gray-500" strokeWidth={1.5} />
           </PreferenceCard>
         </div>
 
-        {/* Next Button */}
         <div className="pt-8 pb-6">
           <NextButton />
         </div>
