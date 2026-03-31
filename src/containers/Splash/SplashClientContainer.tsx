@@ -39,14 +39,17 @@ export default function SplashClientContainer({ children }: { children: ReactNod
         setTemporature(preferenceValue);
         setLocation(latitude, longitude);
         setAddress(address);
-        router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
-      } else if (preference && !location) {
-        const preferenceValue = JSON.parse(preference);
 
-        setTemporature(preferenceValue);
-        router.replace("/location");
-      } else {
+        router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
+      } else if (!preference && location) {
+        const { address, latitude, longitude } = JSON.parse(location);
+
+        setLocation(latitude, longitude);
+        setAddress(address);
+
         router.replace("/preference");
+      } else {
+        router.replace("/location");
       }
     }, 2000); // 2초 후에 리다이렉트
   }, [preference, location]);
