@@ -1,3 +1,17 @@
+/**
+ * LocationClientContainer.tsx
+ * 위치 설정 페이지의 클라이언트 상태 관리 컨테이너
+ *
+ * Context를 통해 하위 컴포넌트에 상태와 함수를 전달한다.
+ * - LocationContext: 주소 상태, GPS 위치 가져오기, 다음 버튼 클릭 등
+ * - LocationDialogContext: 주소 검색 다이얼로그 상태, 폼 스키마, 검색 함수 등
+ *
+ * 주요 로직:
+ * - getGeolocationFunc: 브라우저 Geolocation API로 좌표를 가져와 행정구역 코드로 변환 후 nx/ny 격자 좌표 설정
+ * - searchLocationFunc: 주소 문자열을 카카오 API로 검색하여 좌표와 주소를 설정
+ * - nextButtonClickFunc: 설정된 위치 정보를 localStorage에 저장하고 선호도 페이지로 이동
+ */
+
 "use client";
 
 import { createContext, Dispatch, ReactNode, useState } from "react";
@@ -8,14 +22,17 @@ import * as z from "zod";
 
 import { useLocationStore } from "@/states/location";
 
+import region_coords from "@/configs/region_coords.json";
 import { addressToGeoLocation, geoLocationToRegionCode } from "@/utils/requestLocalApi";
 
+/** 위치 관련 기본 Context 타입 - 주소 상태 및 위치 관련 액션 함수 */
 interface LocationContextType {
   addressState: string;
   getGeolocationFunc: () => void;
   nextButtonClickFunc: () => void;
 }
 
+/** 주소 검색 다이얼로그 전용 Context 타입 - 다이얼로그 상태, 폼 스키마, 검색 함수 */
 interface LocationDialogContextType {
   addressDialogOpen: boolean;
   submitError: string | null;
@@ -34,18 +51,25 @@ export default function LocationClientContainer({ children }: { children: ReactN
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const { setLocation } = useLocationStore();
+  const { latitude, longitude, setLocation } = useLocationStore();
 
+  /** 브라우저 Geolocation API를 사용하여 현재 위치의 좌표를 가져오고, 행정구역 코드를 통해 기상청 격자 좌표(nx, ny)로 변환 */
   const getGeolocationFunc = async () => {
     typeof window !== "undefined"
       ? window.navigator.geolocation.getCurrentPosition(
           async (position) => {
             const { latitude, longitude } = position.coords;
+            // 위경도 좌표를 행정구역 코드로 변환
             const regionCode = await geoLocationToRegionCode(latitude, longitude);
-            const hRegion = regionCode.documents.filter((doc) => doc.region_type === "H")[0];
-            const bRegion = regionCode.documents.filter((doc) => doc.region_type === "B")[0];
+            const hRegion = regionCode.documents.filter((doc) => doc.region_type === "H")[0]; // H: 행정동
+            const bRegion = regionCode.documents.filter((doc) => doc.region_type === "B")[0]; // B: 법정동
+            // 행정동 코드를 기반으로 기상청 격자 좌표(nx, ny) 추출
+            const coord = region_coords[hRegion.code as keyof typeof region_coords];
+            const nx = coord.nx;
+            const ny = coord.ny;
 
             setAddressState(hRegion.address_name || bRegion.address_name);
+            setLocation(nx, ny);
           },
           (error) => {
             if (error.message === "User denied Geolocation") {
@@ -62,6 +86,7 @@ export default function LocationClientContainer({ children }: { children: ReactN
     address: z.string().min(1, "주소를 입력해주세요."),
   });
 
+  /** 주소 문자열을 검색하여 위치 정보를 설정하는 함수 */
   const searchLocationFunc = async (value: string) => {
     setSubmitError(null);
     const data = await addressToGeoLocation(value);
@@ -70,11 +95,19 @@ export default function LocationClientContainer({ children }: { children: ReactN
     } else {
       setAddressDialogOpen(false);
       const address = data.documents[0].address.region_1depth_name + " " + data.documents[0].address.region_2depth_name + " " + (data.documents[0].address.region_3depth_h_name || data.documents[0].address.region_3depth_name);
+      const coord = region_coords[data.documents[0].address.h_code as keyof typeof region_coords];
+      const nx = coord.nx;
+      const ny = coord.ny;
+
       setAddressState(address);
+      setLocation(nx, ny);
     }
   };
 
+  /** 설정된 위치 정보를 localStorage에 저장하고 선호도 설정 페이지로 이동 */
   const nextButtonClickFunc = () => {
+    typeof window !== "undefined" ? localStorage.setItem("location", JSON.stringify({ address: addressState, latitude: latitude, longitude: longitude })) : null;
+
     router.push("/preference");
   };
 

@@ -1,3 +1,10 @@
+/**
+ * PreferenceServerBlock.tsx
+ * 선호도 설정 페이지의 서버 레이아웃 컴포넌트
+ *
+ * 더위/추위/보통 3가지 선호도 카드와 다음 버튼을 배치하는 레이아웃을 정의한다.
+ */
+
 import { Flame, Snowflake, Minus } from "lucide-react";
 
 import Layout from "@/components/layout";

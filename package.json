@@ -1,8 +1,8 @@
 {
-  "name": "nextjs-basement",
+  "name": "how-wear-with-weather",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "Next.js 16 기반의 최신 SSR/SSG 프로젝트 템플릿",
+  "description": "날씨에 어울리는 옷차림을 추천해주는 서비스입니다.",
   "keywords": [
     "nextjs",
     "react",

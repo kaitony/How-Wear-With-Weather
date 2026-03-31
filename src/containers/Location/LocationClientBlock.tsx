@@ -1,3 +1,13 @@
+/**
+ * LocationClientBlock.tsx
+ * 위치 설정 페이지의 클라이언트 UI 컴포넌트 모음
+ *
+ * - CurrentLocation: 현재 설정된 위치(주소)를 화면에 표시
+ * - GeoLocationButton: 기기의 GPS를 사용하여 자동으로 위치를 가져오는 버튼
+ * - SearchLocation: 주소 검색 다이얼로그를 열어 직접 주소를 입력하여 위치를 설정
+ * - NextButton: 위치가 설정된 경우에만 활성화되는 다음 단계 이동 버튼
+ */
+
 "use client";
 
 import { use, useState } from "react";
@@ -14,6 +24,7 @@ import { Input } from "@/components/input";
 
 import { LocationContext, LocationDialogContext } from "./LocationClientContainer";
 
+/** 현재 설정된 위치(주소)를 표시하는 컴포넌트 */
 export function CurrentLocation() {
   const { addressState } = use(LocationContext);
   return (
@@ -27,6 +38,7 @@ export function CurrentLocation() {
   );
 }
 
+/** 기기 GPS를 이용한 자동 위치 설정 버튼 컴포넌트 */
 export function GeoLocationButton() {
   const { getGeolocationFunc } = use(LocationContext);
   return (
@@ -40,6 +52,7 @@ export function GeoLocationButton() {
   );
 }
 
+/** 주소 검색 다이얼로그 컴포넌트 - 사용자가 직접 주소를 입력하여 위치를 설정 */
 export function SearchLocation() {
   const { addressDialogOpen, submitError, locationFormSchema, setAddressDialogOpen, searchLocationFunc } = use(LocationDialogContext);
   const form = useForm({
@@ -96,6 +109,7 @@ export function SearchLocation() {
   );
 }
 
+/** 다음 단계(선호도 설정)로 이동하는 버튼 - 주소가 설정되지 않으면 비활성화 */
 export function NextButton() {
   const { addressState, nextButtonClickFunc } = use(LocationContext);
 

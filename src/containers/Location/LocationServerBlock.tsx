@@ -1,3 +1,11 @@
+/**
+ * LocationServerBlock.tsx
+ * 위치 설정 페이지의 서버 레이아웃 컴포넌트
+ *
+ * 페이지의 전체 구조와 레이아웃을 정의하며,
+ * 클라이언트 UI 컴포넌트(CurrentLocation, GeoLocationButton, SearchLocation, NextButton)를 배치한다.
+ */
+
 import Layout from "@/components/layout";
 
 import { CurrentLocation, GeoLocationButton, SearchLocation, NextButton } from "./LocationClientBlock";

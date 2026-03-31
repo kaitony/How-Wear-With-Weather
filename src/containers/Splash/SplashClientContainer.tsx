@@ -1,3 +1,14 @@
+/**
+ * SplashClientContainer.tsx
+ * 스플래시 페이지의 클라이언트 컨테이너
+ *
+ * 앱 최초 진입 시 localStorage에서 기존 설정값(위치, 선호도)을 확인하여
+ * 적절한 페이지로 리다이렉트한다.
+ * - 위치 + 선호도 모두 있음 -> 메인 페이지(/main)
+ * - 선호도만 있음 -> 위치 설정 페이지(/location)
+ * - 아무것도 없음 -> 선호도 설정 페이지(/preference)
+ */
+
 "use client";
 
 import { ReactNode, useEffect } from "react";
@@ -18,6 +29,7 @@ export default function SplashClientContainer({ children }: { children: ReactNod
   const { setLocation } = useLocationStore();
 
   useEffect(() => {
+    // 2초 후 기존 설정값에 따라 적절한 페이지로 리다이렉트
     setTimeout(() => {
       if (preference && location) {
         setTemporature(JSON.parse(preference));

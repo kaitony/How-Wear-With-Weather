@@ -5018,6 +5018,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"how-wear-with-weather@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "how-wear-with-weather@workspace:."
+  dependencies:
+    "@eslint/eslintrc": "npm:^3.3.5"
+    "@tailwindcss/postcss": "npm:^4.2.2"
+    "@tanstack/react-form-nextjs": "npm:^1.28.6"
+    "@types/node": "npm:^22.19.15"
+    "@types/react": "npm:^19.2.14"
+    "@types/react-dom": "npm:^19.2.3"
+    babel-plugin-react-compiler: "npm:1.0.0"
+    class-variance-authority: "npm:^0.7.1"
+    clsx: "npm:^2.1.1"
+    eslint: "npm:^10.1.0"
+    eslint-config-next: "npm:16.2.1"
+    eslint-config-prettier: "npm:^10.1.8"
+    lucide-react: "npm:^1.7.0"
+    next: "npm:16.2.1"
+    radix-ui: "npm:^1.4.3"
+    react: "npm:^19.2.4"
+    react-dom: "npm:^19.2.4"
+    shadcn: "npm:^4.1.1"
+    tailwind-merge: "npm:^3.5.0"
+    tailwindcss: "npm:^4.2.2"
+    tw-animate-css: "npm:^1.4.0"
+    typescript: "npm:^6.0.2"
+    zod: "npm:^4.3.6"
+    zustand: "npm:^5.0.12"
+  languageName: unknown
+  linkType: soft
+
 "http-errors@npm:^2.0.0, http-errors@npm:^2.0.1, http-errors@npm:~2.0.1":
   version: 2.0.1
   resolution: "http-errors@npm:2.0.1"
@@ -6124,37 +6155,6 @@ __metadata:
   checksum: 10c0/902c936546f64e2dbbdeacc6599a3d6f9beae334b0aa8f2a439439b573369f1d49530fafc817f7ac1dcbcc0b5a42c44287ee293c5c91590773e190c416b48db9
   languageName: node
   linkType: hard
-
-"nextjs-basement@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "nextjs-basement@workspace:."
-  dependencies:
-    "@eslint/eslintrc": "npm:^3.3.5"
-    "@tailwindcss/postcss": "npm:^4.2.2"
-    "@tanstack/react-form-nextjs": "npm:^1.28.6"
-    "@types/node": "npm:^22.19.15"
-    "@types/react": "npm:^19.2.14"
-    "@types/react-dom": "npm:^19.2.3"
-    babel-plugin-react-compiler: "npm:1.0.0"
-    class-variance-authority: "npm:^0.7.1"
-    clsx: "npm:^2.1.1"
-    eslint: "npm:^10.1.0"
-    eslint-config-next: "npm:16.2.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    lucide-react: "npm:^1.7.0"
-    next: "npm:16.2.1"
-    radix-ui: "npm:^1.4.3"
-    react: "npm:^19.2.4"
-    react-dom: "npm:^19.2.4"
-    shadcn: "npm:^4.1.1"
-    tailwind-merge: "npm:^3.5.0"
-    tailwindcss: "npm:^4.2.2"
-    tw-animate-css: "npm:^1.4.0"
-    typescript: "npm:^6.0.2"
-    zod: "npm:^4.3.6"
-    zustand: "npm:^5.0.12"
-  languageName: unknown
-  linkType: soft
 
 "node-domexception@npm:^1.0.0":
   version: 1.0.0

@@ -1,3 +1,11 @@
+/**
+ * SplashServerBlock.tsx
+ * 스플래시 페이지의 서버 레이아웃 컴포넌트
+ *
+ * 앱 로고와 타이틀("How Wear with Weather"), 서브 타이틀을 표시하는
+ * 스플래시 화면의 레이아웃을 정의한다.
+ */
+
 import Image from "next/image";
 
 import Layout from "@/components/layout";
@@ -21,6 +29,7 @@ export default function SplashServerBlock() {
   );
 }
 
+/** 로고 이미지 컴포넌트 */
 function Logo() {
   return <Image src={logo} alt="Logo" width={120} height={120} loading="eager" />;
 }

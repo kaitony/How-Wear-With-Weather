@@ -1,3 +1,13 @@
+/**
+ * PreferenceClientContainer.tsx
+ * 선호도 설정 페이지의 클라이언트 상태 관리 컨테이너
+ *
+ * PreferenceContext를 통해 하위 컴포넌트에 상태와 함수를 전달한다.
+ * - selectedPreference: 현재 선택된 선호도 (hot / cold / normal)
+ * - selectPreferenceFunc: 선호도 선택 함수
+ * - nextButtonClickFunc: 선호도 값을 숫자로 변환(1 / -1 / 0)하여 localStorage에 저장 후 메인 페이지로 이동
+ */
+
 "use client";
 
 import { ReactNode, createContext, useState } from "react";
@@ -19,10 +29,12 @@ export default function PreferenceClientContainer({ children }: { children: Reac
   const [selectedPreference, setSelectedPreference] = useState<string>("");
   const { setTemporature } = usePreferenceStore();
 
+  /** 선호도 카드 선택 함수 */
   const selectPreferenceFunc = (preferenceId: string) => {
     setSelectedPreference(preferenceId);
   };
 
+  /** 선호도 값을 숫자로 변환(hot=1, cold=-1, normal=0)하여 저장 후 메인 페이지로 이동 */
   const nextButtonClickFunc = () => {
     if (!selectedPreference) return;
 
@@ -30,7 +42,7 @@ export default function PreferenceClientContainer({ children }: { children: Reac
 
     setTemporature(preferenceValue);
     localStorage.setItem("preference", JSON.stringify(preferenceValue));
-    router.push("/location");
+    router.push("/main");
   };
 
   const preferenceContextValue: PreferenceContextType = {

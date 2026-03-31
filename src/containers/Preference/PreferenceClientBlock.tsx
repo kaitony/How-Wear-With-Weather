@@ -1,3 +1,11 @@
+/**
+ * PreferenceClientBlock.tsx
+ * 선호도 설정 페이지의 클라이언트 UI 컴포넌트 모음
+ *
+ * - PreferenceCard: 선호도 선택 카드 (더위/추위/보통) - 선택 시 스타일 변경
+ * - NextButton: 선호도가 선택된 경우에만 활성화되는 다음 단계 이동 버튼
+ */
+
 "use client";
 
 import { ReactNode, use } from "react";
@@ -17,6 +25,7 @@ interface PreferenceCardProps {
   children: ReactNode;
 }
 
+/** 선호도 선택 카드 컴포넌트 - 선택 상태에 따라 스타일이 변경됨 */
 export function PreferenceCard({ id, selectedBg, selectedBorder, bgColor, borderColor, title, description, children }: PreferenceCardProps) {
   const { selectedPreference, selectPreferenceFunc } = use(PreferenceContext);
 
@@ -40,6 +49,7 @@ export function PreferenceCard({ id, selectedBg, selectedBorder, bgColor, border
   );
 }
 
+/** 다음 단계(메인 페이지)로 이동하는 버튼 - 선호도가 선택되지 않으면 비활성화 */
 export function NextButton() {
   const { selectedPreference, nextButtonClickFunc } = use(PreferenceContext);
 
