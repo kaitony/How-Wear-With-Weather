@@ -15,7 +15,7 @@ import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { usePreferenceStore } from "@/states/preference";
-import { useLocationStore } from "@/states/location";
+import { useAddressStore, useLocationStore } from "@/states/location";
 
 export default function SplashClientContainer({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -27,16 +27,23 @@ export default function SplashClientContainer({ children }: { children: ReactNod
 
   const { setTemporature } = usePreferenceStore();
   const { setLocation } = useLocationStore();
+  const { setAddress } = useAddressStore();
 
   useEffect(() => {
     // 2초 후 기존 설정값에 따라 적절한 페이지로 리다이렉트
     setTimeout(() => {
       if (preference && location) {
-        setTemporature(JSON.parse(preference));
-        setLocation(JSON.parse(location).latitude, JSON.parse(location).longitude);
-        router.replace("/main");
+        const preferenceValue = JSON.parse(preference);
+        const { address, latitude, longitude } = JSON.parse(location);
+
+        setTemporature(preferenceValue);
+        setLocation(latitude, longitude);
+        setAddress(address);
+        router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
       } else if (preference && !location) {
-        setTemporature(JSON.parse(preference));
+        const preferenceValue = JSON.parse(preference);
+
+        setTemporature(preferenceValue);
         router.replace("/location");
       } else {
         router.replace("/preference");

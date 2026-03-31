@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 import * as z from "zod";
 
-import { useLocationStore } from "@/states/location";
+import { useAddressStore, useLocationStore } from "@/states/location";
 
 import region_coords from "@/configs/region_coords.json";
 import { addressToGeoLocation, geoLocationToRegionCode } from "@/utils/requestLocalApi";
@@ -52,6 +52,7 @@ export default function LocationClientContainer({ children }: { children: ReactN
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const { latitude, longitude, setLocation } = useLocationStore();
+  const { setAddress } = useAddressStore();
 
   /** 브라우저 Geolocation API를 사용하여 현재 위치의 좌표를 가져오고, 행정구역 코드를 통해 기상청 격자 좌표(nx, ny)로 변환 */
   const getGeolocationFunc = async () => {
@@ -70,6 +71,7 @@ export default function LocationClientContainer({ children }: { children: ReactN
 
             setAddressState(hRegion.address_name || bRegion.address_name);
             setLocation(nx, ny);
+            setAddress(hRegion.address_name || bRegion.address_name);
           },
           (error) => {
             if (error.message === "User denied Geolocation") {
@@ -101,6 +103,7 @@ export default function LocationClientContainer({ children }: { children: ReactN
 
       setAddressState(address);
       setLocation(nx, ny);
+      setAddress(address);
     }
   };
 

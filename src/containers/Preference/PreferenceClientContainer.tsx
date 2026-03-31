@@ -14,6 +14,7 @@ import { ReactNode, createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { usePreferenceStore } from "@/states/preference";
+import { useLocationStore } from "@/states/location";
 
 interface PreferenceContextType {
   selectedPreference: string;
@@ -27,7 +28,9 @@ export default function PreferenceClientContainer({ children }: { children: Reac
   const router = useRouter();
 
   const [selectedPreference, setSelectedPreference] = useState<string>("");
+
   const { setTemporature } = usePreferenceStore();
+  const { latitude, longitude } = useLocationStore();
 
   /** 선호도 카드 선택 함수 */
   const selectPreferenceFunc = (preferenceId: string) => {
@@ -42,7 +45,7 @@ export default function PreferenceClientContainer({ children }: { children: Reac
 
     setTemporature(preferenceValue);
     localStorage.setItem("preference", JSON.stringify(preferenceValue));
-    router.push("/main");
+    router.push(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
   };
 
   const preferenceContextValue: PreferenceContextType = {
