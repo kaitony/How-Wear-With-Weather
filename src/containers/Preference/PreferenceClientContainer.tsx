@@ -14,7 +14,7 @@ import { ReactNode, createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { usePreferenceStore } from "@/states/preference";
-import { useLocationStore } from "@/states/location";
+import { useLocationStore, useTMLocationStore } from "@/states/location";
 
 interface PreferenceContextType {
   selectedPreference: string;
@@ -30,7 +30,8 @@ export default function PreferenceClientContainer({ children }: { children: Reac
   const [selectedPreference, setSelectedPreference] = useState<string>("");
 
   const { setTemporature } = usePreferenceStore();
-  const { latitude, longitude } = useLocationStore();
+  const { nx, ny } = useLocationStore();
+  const { tmX, tmY } = useTMLocationStore();
 
   /** 선호도 카드 선택 함수 */
   const selectPreferenceFunc = (preferenceId: string) => {
@@ -45,7 +46,7 @@ export default function PreferenceClientContainer({ children }: { children: Reac
 
     setTemporature(preferenceValue);
     localStorage.setItem("hwww_preference", JSON.stringify(preferenceValue));
-    router.push(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
+    router.push(`/main?preference=${preferenceValue}&nx=${nx}&ny=${ny}&tmX=${tmX}&tmY=${tmY}`);
   };
 
   const preferenceContextValue: PreferenceContextType = {
