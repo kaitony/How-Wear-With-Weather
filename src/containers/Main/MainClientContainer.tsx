@@ -13,6 +13,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 import { useAddressStore } from "@/states/location";
+import { useRouter } from "next/navigation";
 
 interface MainClientContainerProps {
   weatherInfo: WeatherInfoType;
@@ -22,13 +23,16 @@ interface MainClientContainerProps {
 interface MainContextType {
   selectedDate: string;
   selectedDateWeather: WeatherInfoType[string];
-  setDateFunc: (date: string) => void;
+  changeLocationFunc: () => void;
+  setDateFunc: (direction: "prev" | "next") => void;
   address: string;
 }
 
 export const MainContext = createContext({} as MainContextType);
 
 export default function MainClientContainer({ weatherInfo, children }: MainClientContainerProps) {
+  const router = useRouter();
+
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYYMMDD"));
   const [resolvedAddress, setResolvedAddress] = useState("");
 
@@ -41,21 +45,36 @@ export default function MainClientContainer({ weatherInfo, children }: MainClien
     if (address) {
       setResolvedAddress(address);
     } else {
-      const saved = localStorage.getItem("location");
+      const saved = localStorage.getItem("hwww_location");
       if (saved) {
         setResolvedAddress(JSON.parse(saved).address);
       }
     }
   }, [address]);
 
-  const setDateFunc = (date: string) => {
-    setSelectedDate(date);
+  const changeLocationFunc = () => {
+    router.push("/location");
+  };
+
+  const setDateFunc = (direction: "prev" | "next") => {
+    const firstDate = dayjs(Object.keys(weatherInfo)[0]);
+    const lastDate = dayjs(Object.keys(weatherInfo)[Object.keys(weatherInfo).length - 1]);
+    const newDate = dayjs(selectedDate)
+      .add(direction === "prev" ? -1 : 1, "day")
+      .format("YYYYMMDD");
+
+    if (dayjs(newDate).isBefore(firstDate) || dayjs(newDate).isAfter(lastDate)) {
+      return; // 범위를 벗어나면 업데이트하지 않음
+    } else {
+      setSelectedDate(newDate);
+    }
   };
 
   const mainContextValue = {
     selectedDate,
     selectedDateWeather,
     setDateFunc,
+    changeLocationFunc,
     address: resolvedAddress,
   };
 

@@ -12,24 +12,28 @@ import Layout from "@/components/layout";
 
 import { logo } from "@/configs/urls";
 
+import { RedirectButton, SubTitle } from "./SplashClientBlock";
+
 export default function SplashServerBlock() {
   return (
     <Layout>
-      <div className="flex flex-col items-center gap-6 animate-fade-in">
-        <Logo />
-        <h1 className="text-4xl text-center font-bold tracking-tight text-gray-700">
-          How Wear
-          <br />
-          <span className="text-3xl text-red-400">with </span>
-          Weather
-        </h1>
-        <p className="text-md font-semibold text-gray-500 tracking-wide">날씨에 맞게, 스마트하게</p>
-      </div>
+      <RedirectButton>
+        <div className="min-h-screen flex flex-col justify-center items-center gap-y-8 animate-fade-in">
+          <Logo />
+          <h1 className="text-2xl text-center font-bold tracking-tight text-gray-700 leading-snug">How Wear with Weather</h1>
+          <SubTitle />
+          <p className="mt-6 text-sm text-gray-400 animate-pulse">화면을 터치해서 시작하세요</p>
+        </div>
+      </RedirectButton>
     </Layout>
   );
 }
 
 /** 로고 이미지 컴포넌트 */
 function Logo() {
-  return <Image src={logo} alt="Logo" width={120} height={120} loading="eager" />;
+  return (
+    <div className="bg-white rounded-full flex items-center justify-center shadow-lg p-10">
+      <Image src={logo} alt="Logo" width={90} height={90} loading="eager" />
+    </div>
+  );
 }

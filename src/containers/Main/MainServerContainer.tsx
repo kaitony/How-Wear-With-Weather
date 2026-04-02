@@ -145,7 +145,7 @@ export default async function MainServerContainer({ preference, latitude, longit
 
   return (
     <MainClientContainer weatherInfo={weatherInfo}>
-      <MainServerBlock weatherInfo={weatherInfo} />
+      <MainServerBlock />
     </MainClientContainer>
   );
 }

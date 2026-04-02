@@ -26,6 +26,8 @@ export async function requestWeatherInfo(latitude: string, longitude: string): P
     headers: {
       "Content-Type": "application/json",
     },
+    cache: "force-cache",
+    next: { revalidate: 3600 }, // 1시간마다 캐시 재검증
   });
 
   if (!response.ok) {

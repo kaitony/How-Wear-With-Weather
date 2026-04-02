@@ -44,7 +44,7 @@ export default function PreferenceClientContainer({ children }: { children: Reac
     const preferenceValue = selectedPreference === "hot" ? 1 : selectedPreference === "cold" ? -1 : 0;
 
     setTemporature(preferenceValue);
-    localStorage.setItem("preference", JSON.stringify(preferenceValue));
+    localStorage.setItem("hwww_preference", JSON.stringify(preferenceValue));
     router.push(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
   };
 

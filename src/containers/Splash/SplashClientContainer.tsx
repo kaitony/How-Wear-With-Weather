@@ -11,48 +11,55 @@
 
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { createContext, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 import { usePreferenceStore } from "@/states/preference";
 import { useAddressStore, useLocationStore } from "@/states/location";
+
+interface SplashContextType {
+  redirectFunc: () => void;
+}
+
+export const SplashContext = createContext({} as SplashContextType);
 
 export default function SplashClientContainer({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   // SSR 환경에서는 localStorage가 존재하지 않으므로, 이를 안전하게 처리하기 위해 조건부로 접근
   // 기존 설정값 확인
-  const preference = typeof window !== "undefined" ? localStorage.getItem("preference") : null;
-  const location = typeof window !== "undefined" ? localStorage.getItem("location") : null;
+  const preference = typeof window !== "undefined" ? localStorage.getItem("hwww_preference") : null;
+  const location = typeof window !== "undefined" ? localStorage.getItem("hwww_location") : null;
 
   const { setTemporature } = usePreferenceStore();
   const { setLocation } = useLocationStore();
   const { setAddress } = useAddressStore();
 
-  useEffect(() => {
-    // 2초 후 기존 설정값에 따라 적절한 페이지로 리다이렉트
-    setTimeout(() => {
-      if (preference && location) {
-        const preferenceValue = JSON.parse(preference);
-        const { address, latitude, longitude } = JSON.parse(location);
+  const redirectFunc = () => {
+    if (preference && location) {
+      const preferenceValue = JSON.parse(preference);
+      const { address, latitude, longitude } = JSON.parse(location);
 
-        setTemporature(preferenceValue);
-        setLocation(latitude, longitude);
-        setAddress(address);
+      setTemporature(preferenceValue);
+      setLocation(latitude, longitude);
+      setAddress(address);
 
-        router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
-      } else if (!preference && location) {
-        const { address, latitude, longitude } = JSON.parse(location);
+      router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
+    } else if (!preference && location) {
+      const { address, latitude, longitude } = JSON.parse(location);
 
-        setLocation(latitude, longitude);
-        setAddress(address);
+      setLocation(latitude, longitude);
+      setAddress(address);
 
-        router.replace("/preference");
-      } else {
-        router.replace("/location");
-      }
-    }, 2000); // 2초 후에 리다이렉트
-  }, [preference, location]);
+      router.replace("/preference");
+    } else {
+      router.replace("/location");
+    }
+  };
 
-  return <>{children}</>;
+  const splashContextValue: SplashContextType = {
+    redirectFunc,
+  };
+
+  return <SplashContext value={splashContextValue}>{children}</SplashContext>;
 }

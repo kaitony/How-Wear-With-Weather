@@ -54,6 +54,8 @@ export default function LocationClientContainer({ children }: { children: ReactN
   const { latitude, longitude, setLocation } = useLocationStore();
   const { setAddress } = useAddressStore();
 
+  const preference = typeof window !== "undefined" ? localStorage.getItem("hwww_preference") : null;
+
   /** 브라우저 Geolocation API를 사용하여 현재 위치의 좌표를 가져오고, 행정구역 코드를 통해 기상청 격자 좌표(nx, ny)로 변환 */
   const getGeolocationFunc = async () => {
     typeof window !== "undefined"
@@ -109,9 +111,13 @@ export default function LocationClientContainer({ children }: { children: ReactN
 
   /** 설정된 위치 정보를 localStorage에 저장하고 선호도 설정 페이지로 이동 */
   const nextButtonClickFunc = () => {
-    typeof window !== "undefined" ? localStorage.setItem("location", JSON.stringify({ address: addressState, latitude: latitude, longitude: longitude })) : null;
+    typeof window !== "undefined" ? localStorage.setItem("hwww_location", JSON.stringify({ address: addressState, latitude: latitude, longitude: longitude })) : null;
 
-    router.push("/preference");
+    if (!preference) {
+      router.push("/preference");
+    } else {
+      router.push(`/main?preference=${preference}&latitude=${latitude}&longitude=${longitude}`);
+    }
   };
 
   const locationContextValue: LocationContextType = {

@@ -8,32 +8,40 @@
 
 import Layout from "@/components/layout";
 
-import { DateAndLocationCard, DateSelector, TempAndWeather, OutfitItems } from "./MainClientBlock";
+import { DateSelector, Weather, Temperature, OutfitItems, WindSpeed, Humidity, OutfitImage } from "./MainClientBlock";
 
-interface MainServerBlockProps {
-  weatherInfo: WeatherInfoType;
-}
-
-export default function MainServerBlock({ weatherInfo }: MainServerBlockProps) {
+export default function MainServerBlock() {
   return (
     <Layout>
-      {/* Date Selector */}
-      <div className="rounded-md bg-white/60 backdrop-blur-sm shadow-sm sticky top-0 z-10">
-        <div className="max-w-lg flex items-center justify-between gap-x-3 overflow-x-auto px-4 py-3">
-          {Object.keys(weatherInfo).map((date, index) => (
-            <DateSelector key={index} date={date} />
-          ))}
-        </div>
-      </div>
+      <div className="min-h-screen flex flex-col mx-auto w-full">
+        {/* Date Selector */}
+        <DateSelector />
 
-      {/* Main Content */}
-      <div className="w-full flex flex-col px-6 pt-6 max-w-lg">
-        <DateAndLocationCard />
+        {/* Main Content */}
+        <div className="flex flex-col items-center p-6 gap-y-5">
+          {/* Main Outfit Card */}
+          <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-3xl p-10 shadow-xl flex flex-col gap-y-8">
+            <div className="flex flex-col items-center">
+              <OutfitImage />
+              <h3 className="text-xl text-center font-bold mb-4">오늘의 추천 코디</h3>
+              <OutfitItems />
+            </div>
+            <div className="w-full h-px bg-gray-200" />
+            <Temperature />
+          </div>
 
-        {/* Main Outfit Card */}
-        <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl mb-6 flex flex-col gap-y-6">
-          <TempAndWeather />
-          <OutfitItems />
+          <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col gap-y-6">
+            <Weather />
+          </div>
+
+          <div className="max-w-md w-full flex space-x-6">
+            <div className="flex-1 bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col gap-y-6">
+              <WindSpeed />
+            </div>
+            <div className="flex-1 bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-xl flex flex-col gap-y-6">
+              <Humidity />
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
