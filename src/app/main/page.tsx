@@ -5,7 +5,7 @@ interface MainPageProps {
 }
 
 export default async function MainPage({ searchParams }: MainPageProps) {
-  const { preference, latitude, longitude } = await searchParams;
+  const { preference, nx, ny, tmX, tmY } = await searchParams;
 
-  return <MainContainer preference={preference} latitude={latitude} longitude={longitude} />;
+  return <MainContainer preference={preference} nx={nx} ny={ny} tmX={tmX} tmY={tmY} />;
 }

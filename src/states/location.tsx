@@ -1,9 +1,15 @@
 import { create } from "zustand";
 
 interface LocationState {
-  latitude: number;
-  longitude: number;
-  setLocation: (latitude: number, longitude: number) => void;
+  nx: number;
+  ny: number;
+  setLocation: (nx: number, ny: number) => void;
+}
+
+interface TMLocationState {
+  tmX: number;
+  tmY: number;
+  setTMLocation: (tmX: number, tmY: number) => void;
 }
 
 interface AddressState {
@@ -12,9 +18,15 @@ interface AddressState {
 }
 
 export const useLocationStore = create<LocationState>((set) => ({
-  latitude: 0,
-  longitude: 0,
-  setLocation: (latitude, longitude) => set({ latitude, longitude }),
+  nx: 0,
+  ny: 0,
+  setLocation: (nx, ny) => set({ nx, ny }),
+}));
+
+export const useTMLocationStore = create<TMLocationState>((set) => ({
+  tmX: 0,
+  tmY: 0,
+  setTMLocation: (tmX, tmY) => set({ tmX, tmY }),
 }));
 
 export const useAddressStore = create<AddressState>((set) => ({

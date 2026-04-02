@@ -6,6 +6,8 @@ import "./globals.css";
 import { Noto_Sans_KR, Inter } from "next/font/google";
 import localFont from "next/font/local";
 
+import { TooltipProvider } from "@/components/tooltip";
+
 // Google 폰트: Noto Sans KR (한글 지원)
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",
@@ -40,7 +42,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${notoSansKR.variable} ${inter.variable} ${pretendard.variable}`}>
-      <body>{children}</body>
+      <body>
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
     </html>
   );
 }

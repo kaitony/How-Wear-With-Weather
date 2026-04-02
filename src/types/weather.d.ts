@@ -16,3 +16,27 @@ interface WeatherInfoType {
     outfit: string[];
   };
 }
+
+interface AirInfoType {
+  so2Grade: string;
+  coFlag: string | null;
+  khaiValue: string;
+  so2Value: string;
+  coValue: string;
+  pm25Flag: string | null;
+  pm10Flag: string | null;
+  pm10Value: string;
+  o3Grade: string;
+  khaiGrade: string;
+  pm25Value: string;
+  no2Flag: string | null;
+  no2Grade: string;
+  o3Flag: string | null;
+  pm25Grade: string;
+  so2Flag: string | null;
+  dataTime: string;
+  coGrade: string;
+  no2Value: string;
+  pm10Grade: string;
+  o3Value: string;
+}

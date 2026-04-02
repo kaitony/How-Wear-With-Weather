@@ -8,7 +8,7 @@
 
 import Layout from "@/components/layout";
 
-import { DateSelector, Weather, Temperature, OutfitItems, WindSpeed, Humidity, OutfitImage } from "./MainClientBlock";
+import { DateSelector, Weather, Temperature, OutfitItems, WindSpeed, Humidity, OutfitImage, NeedMaskTag, FineDust, UltraFineDust } from "./MainClientBlock";
 
 export default function MainServerBlock() {
   return (
@@ -21,7 +21,8 @@ export default function MainServerBlock() {
         <div className="flex flex-col items-center p-6 gap-y-5">
           {/* Main Outfit Card */}
           <div className="max-w-md w-full bg-white/80 backdrop-blur-md rounded-3xl p-10 shadow-xl flex flex-col gap-y-8">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col gap-y-4">
+              <NeedMaskTag />
               <OutfitImage />
               <h3 className="text-xl text-center font-bold mb-4">오늘의 추천 코디</h3>
               <OutfitItems />
@@ -42,6 +43,9 @@ export default function MainServerBlock() {
               <Humidity />
             </div>
           </div>
+
+          <FineDust />
+          <UltraFineDust />
         </div>
       </div>
     </Layout>

@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 
 interface MainClientContainerProps {
   weatherInfo: WeatherInfoType;
+  airInfo: AirInfoType;
   children: ReactNode;
 }
 
@@ -26,11 +27,12 @@ interface MainContextType {
   changeLocationFunc: () => void;
   setDateFunc: (direction: "prev" | "next") => void;
   address: string;
+  airInfo: AirInfoType;
 }
 
 export const MainContext = createContext({} as MainContextType);
 
-export default function MainClientContainer({ weatherInfo, children }: MainClientContainerProps) {
+export default function MainClientContainer({ weatherInfo, airInfo, children }: MainClientContainerProps) {
   const router = useRouter();
 
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYYMMDD"));
@@ -76,6 +78,7 @@ export default function MainClientContainer({ weatherInfo, children }: MainClien
     setDateFunc,
     changeLocationFunc,
     address: resolvedAddress,
+    airInfo,
   };
 
   return <MainContext value={mainContextValue}>{children}</MainContext>;

@@ -13,3 +13,8 @@ export const femaleOutfit = {
   cool: "/images/female_cool.png",
   cold: "/images/female_cold.png",
 };
+
+export const airIcons = {
+  mask: "/icons/medical_mask.svg",
+  mist: "/icons/mist.svg",
+};

@@ -20,10 +20,10 @@ import { useRouter } from "next/navigation";
 
 import * as z from "zod";
 
-import { useAddressStore, useLocationStore } from "@/states/location";
+import { useAddressStore, useLocationStore, useTMLocationStore } from "@/states/location";
 
 import region_coords from "@/configs/region_coords.json";
-import { addressToGeoLocation, geoLocationToRegionCode } from "@/utils/requestLocalApi";
+import { addressToGeoLocation, geoLocationToRegionCode, transCoord } from "@/utils/requestLocalApi";
 
 /** 위치 관련 기본 Context 타입 - 주소 상태 및 위치 관련 액션 함수 */
 interface LocationContextType {
@@ -51,7 +51,8 @@ export default function LocationClientContainer({ children }: { children: ReactN
   const [addressDialogOpen, setAddressDialogOpen] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const { latitude, longitude, setLocation } = useLocationStore();
+  const { nx, ny, setLocation } = useLocationStore();
+  const { tmX, tmY, setTMLocation } = useTMLocationStore();
   const { setAddress } = useAddressStore();
 
   const preference = typeof window !== "undefined" ? localStorage.getItem("hwww_preference") : null;
@@ -71,8 +72,13 @@ export default function LocationClientContainer({ children }: { children: ReactN
             const nx = coord.nx;
             const ny = coord.ny;
 
+            const tmCoord = await transCoord(latitude, longitude);
+            const tmX = tmCoord.documents[0].x;
+            const tmY = tmCoord.documents[0].y;
+
             setAddressState(hRegion.address_name || bRegion.address_name);
             setLocation(nx, ny);
+            setTMLocation(tmX, tmY);
             setAddress(hRegion.address_name || bRegion.address_name);
           },
           (error) => {
@@ -98,25 +104,32 @@ export default function LocationClientContainer({ children }: { children: ReactN
       setSubmitError("검색 결과가 없습니다. 주소를 다시 입력해주세요.");
     } else {
       setAddressDialogOpen(false);
-      const address = data.documents[0].address.region_1depth_name + " " + data.documents[0].address.region_2depth_name + " " + (data.documents[0].address.region_3depth_h_name || data.documents[0].address.region_3depth_name);
-      const coord = region_coords[data.documents[0].address.h_code as keyof typeof region_coords];
+      const addressData = data.documents[0].address || data.documents[0].road_address;
+      const address = addressData.region_1depth_name + " " + addressData.region_2depth_name + " " + (addressData.region_3depth_h_name || addressData.region_3depth_name);
+
+      const coord = region_coords[addressData.h_code as keyof typeof region_coords];
       const nx = coord.nx;
       const ny = coord.ny;
 
+      const tmCoord = await transCoord(Number(addressData.x), Number(addressData.y));
+      const tmX = tmCoord.documents[0].x;
+      const tmY = tmCoord.documents[0].y;
+
       setAddressState(address);
       setLocation(nx, ny);
+      setTMLocation(tmX, tmY);
       setAddress(address);
     }
   };
 
   /** 설정된 위치 정보를 localStorage에 저장하고 선호도 설정 페이지로 이동 */
   const nextButtonClickFunc = () => {
-    typeof window !== "undefined" ? localStorage.setItem("hwww_location", JSON.stringify({ address: addressState, latitude: latitude, longitude: longitude })) : null;
+    typeof window !== "undefined" ? localStorage.setItem("hwww_location", JSON.stringify({ address: addressState, nx: nx, ny: ny, tmX: tmX, tmY: tmY })) : null;
 
     if (!preference) {
       router.push("/preference");
     } else {
-      router.push(`/main?preference=${preference}&latitude=${latitude}&longitude=${longitude}`);
+      router.push(`/main?preference=${preference}&nx=${nx}&ny=${ny}&tmX=${tmX}&tmY=${tmY}`);
     }
   };
 

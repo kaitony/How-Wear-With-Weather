@@ -9,27 +9,30 @@
 import { redirect } from "next/navigation";
 
 import { requestWeatherInfo } from "@/utils/requestWeatherApi";
+import { requestStationInfo, requestAirPollution } from "@/utils/requestAirApi";
 
 import MainClientContainer from "./MainClientContainer";
 import MainServerBlock from "./MainServerBlock";
 
 interface MainServerContainerProps {
   preference?: string | string[];
-  latitude?: string | string[];
-  longitude?: string | string[];
+  nx?: string | string[];
+  ny?: string | string[];
+  tmX?: string | string[];
+  tmY?: string | string[];
 }
 
-export default async function MainServerContainer({ preference, latitude, longitude }: MainServerContainerProps) {
-  // preference, latitude, longitude 중 하나라도 없으면 각각의 설정 페이지로 리다이렉트
+export default async function MainServerContainer({ preference, nx, ny, tmX, tmY }: MainServerContainerProps) {
+  // preference, nx, ny, tmX, tmY 중 하나라도 없으면 각각의 설정 페이지로 리다이렉트
   if (!preference) {
     redirect("/preference");
   }
 
-  if (!latitude || !longitude) {
+  if (!nx || !ny || !tmX || !tmY) {
     redirect("/location");
   }
 
-  const weatherData = await requestWeatherInfo(latitude as string, longitude as string);
+  const weatherData = await requestWeatherInfo(nx as string, ny as string);
 
   /*
     카테고리
@@ -143,8 +146,13 @@ export default async function MainServerContainer({ preference, latitude, longit
     weatherInfo[date].outfit = getOutfit(feelsLike);
   }
 
+  const stationInfo = await requestStationInfo(tmX as string, tmY as string);
+  const airPollution = await requestAirPollution(stationInfo.response.body.items[0].stationName);
+
+  const airInfo = airPollution.response.body.items[0];
+
   return (
-    <MainClientContainer weatherInfo={weatherInfo}>
+    <MainClientContainer weatherInfo={weatherInfo} airInfo={airInfo}>
       <MainServerBlock />
     </MainClientContainer>
   );

@@ -29,7 +29,7 @@ interface AddressToGeoLocationResponse {
       x: string;
       y: string;
       zone_no: string;
-    } | null;
+    };
     x: string;
     y: string;
   }[];
@@ -52,6 +52,16 @@ interface GeoLocationToRegionCodeResponse {
     region_3depth_name: string;
     region_4depth_name: string;
     code: string;
+    x: number;
+    y: number;
+  }[];
+}
+
+interface TransCoordResponse {
+  meta: {
+    total_count: number;
+  };
+  documents: {
     x: number;
     y: number;
   }[];
@@ -84,6 +94,23 @@ export async function geoLocationToRegionCode(latitude: number, longitude: numbe
 
   if (!response.ok) {
     throw new Error(`Failed to fetch region code for coordinates: ${latitude}, ${longitude}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
+export async function transCoord(latitude: number, longitude: number): Promise<TransCoordResponse> {
+  const response = await fetch(`https://dapi.kakao.com/v2/local/geo/transcoord.json?x=${latitude}&y=${longitude}&input_coord=WGS84&output_coord=TM`, {
+    method: "GET",
+    headers: {
+      Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch transformed coordinates: ${latitude}, ${longitude}`);
   }
 
   const data = await response.json();

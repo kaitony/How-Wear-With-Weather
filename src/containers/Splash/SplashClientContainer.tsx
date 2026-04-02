@@ -15,7 +15,7 @@ import { createContext, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 import { usePreferenceStore } from "@/states/preference";
-import { useAddressStore, useLocationStore } from "@/states/location";
+import { useAddressStore, useLocationStore, useTMLocationStore } from "@/states/location";
 
 interface SplashContextType {
   redirectFunc: () => void;
@@ -33,22 +33,25 @@ export default function SplashClientContainer({ children }: { children: ReactNod
 
   const { setTemporature } = usePreferenceStore();
   const { setLocation } = useLocationStore();
+  const { setTMLocation } = useTMLocationStore();
   const { setAddress } = useAddressStore();
 
   const redirectFunc = () => {
     if (preference && location) {
       const preferenceValue = JSON.parse(preference);
-      const { address, latitude, longitude } = JSON.parse(location);
+      const { address, nx, ny, tmX, tmY } = JSON.parse(location);
 
       setTemporature(preferenceValue);
-      setLocation(latitude, longitude);
+      setLocation(nx, ny);
+      setTMLocation(tmX, tmY);
       setAddress(address);
 
-      router.replace(`/main?preference=${preferenceValue}&latitude=${latitude}&longitude=${longitude}`);
+      router.replace(`/main?preference=${preferenceValue}&nx=${nx}&ny=${ny}&tmX=${tmX}&tmY=${tmY}`);
     } else if (!preference && location) {
-      const { address, latitude, longitude } = JSON.parse(location);
+      const { address, nx, ny, tmX, tmY } = JSON.parse(location);
 
-      setLocation(latitude, longitude);
+      setLocation(nx, ny);
+      setTMLocation(tmX, tmY);
       setAddress(address);
 
       router.replace("/preference");
