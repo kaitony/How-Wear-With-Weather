@@ -1,9 +1,23 @@
+/**
+ * button.tsx
+ * 재사용 가능한 버튼 컴포넌트
+ *
+ * class-variance-authority(cva)를 사용하여 다양한 variant(default, destructive, outline 등)와
+ * size(xs, sm, default, lg, icon 등)를 지원한다.
+ * asChild prop을 통해 자식 요소로 렌더링할 수도 있다.
+ */
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * 버튼의 variant와 size에 따라 동적으로 클래스를 생성하는 cva 정의
+ * - variant: default, destructive, outline, secondary, ghost, link
+ * - size: xs, sm, default, lg, icon-xs, icon-sm, icon, icon-lg
+ */
 const buttonVariants = cva("inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer", {
   variants: {
     variant: {

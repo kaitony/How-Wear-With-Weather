@@ -13,7 +13,7 @@ import { PreferenceCard, NextButton } from "./PreferenceClientBlock";
 export default function PreferenceServerBlock() {
   return (
     <Layout>
-      <div className="max-w-md min-h-screen flex flex-col gap-y-12 mx-auto w-full py-12">
+      <div className="max-w-md min-h-screen flex flex-col gap-y-12 mx-auto w-full px-8 py-12">
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">사용자 설정</h1>
           <p className="text-gray-500">평소에 날씨를 어떻게 느끼시나요?</p>
