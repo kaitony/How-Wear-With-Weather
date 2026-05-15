@@ -32,7 +32,8 @@ export default async function MainServerContainer({ preference, nx, ny, tmX, tmY
     redirect("/location");
   }
 
-  const weatherData = await requestWeatherInfo(nx as string, ny as string);
+  // 병렬 API 호출: weatherInfo와 stationInfo를 동시에 fetch
+  const [weatherData, stationInfo] = await Promise.all([requestWeatherInfo(nx as string, ny as string), requestStationInfo(tmX as string, tmY as string)]);
 
   /*
     카테고리
@@ -146,9 +147,8 @@ export default async function MainServerContainer({ preference, nx, ny, tmX, tmY
     weatherInfo[date].outfit = getOutfit(feelsLike);
   }
 
-  const stationInfo = await requestStationInfo(tmX as string, tmY as string);
+  // stationInfo가 이미 준비되었으므로 airPollution만 fetch
   const airPollution = await requestAirPollution(stationInfo.response.body.items[0].stationName);
-
   const airInfo = airPollution.response.body.items[0];
 
   return (
