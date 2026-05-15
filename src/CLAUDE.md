@@ -108,6 +108,71 @@ Each page follows a **Server/Client + Block/Container** structure:
 
 ---
 
+## Testing Strategy
+
+**Write tests that verify behavior, not implementation.**
+
+### Unit Tests (Vitest)
+
+- All utility functions must have tests
+- State stores are tested by behavior
+- Components are tested for key interactions only
+
+### Test Organization
+
+- Component tests: `components/__tests__/`
+- State tests: `states/__tests__/`
+- Utility tests: `utils/__tests__/`
+
+### Test Commands
+
+- `yarn test` - Run all tests
+- `yarn test:watch` - Watch mode
+- `yarn test:coverage` - Coverage report
+- `yarn test:ui` - UI dashboard
+
+### Testing Guidelines
+
+- New features require tests
+- Existing code changes must pass tests
+- Run `yarn test` before committing
+- Focus on edge cases and error paths
+
+---
+
+## Development Workflow
+
+**Follow a structured approach from design to deployment.**
+
+### Before Coding
+
+1. Define types in `/types` first
+2. Write API functions in `/utils`
+3. Write tests (TDD recommended)
+4. Start implementation
+
+### Component Development
+
+1. **ServerContainer**: Fetch data
+2. **ServerBlock**: Server-side rendering
+3. **ClientContainer**: State management
+4. **ClientBlock**: Client-side rendering
+
+### Quality Checks
+
+- New features → write tests alongside
+- Code changes → verify tests pass
+- Before push → run `yarn test` and `yarn lint`
+
+### Development Commands
+
+- `yarn dev` - Dev server (HTTPS, Turbopack)
+- `yarn build` - Production build
+- `yarn start` - Production server
+- `yarn lint` - ESLint check
+
+---
+
 ## Project-Specific Rules
 
 ### Next.js App Router
